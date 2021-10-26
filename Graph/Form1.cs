@@ -37,13 +37,14 @@ namespace Graph
       }
 
 
-    private static void Print(int[] distance, int verticesCount)
+    private static void Print(int[] distance, int verticesCount, int destination)
     {
-      var mc = new Form1();
+      
       for (int i = 0; i < verticesCount; ++i)
-        MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString());
+        if(i == destination - 1)
+          MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString());
     }
-    public static void DijkstraAlgo(int[,] graph, int source, int verticesCount)
+    public static void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
       {
         int[] distance = new int[verticesCount];
         bool[] shortestPathTreeSet = new bool[verticesCount];
@@ -66,7 +67,7 @@ namespace Graph
               distance[v] = distance[u] + graph[u, v];
         }
 
-      Print(distance, verticesCount);
+      Print(distance, verticesCount, destination);
       }
 
       List<List<int>> linksInLinks = new List<List<int>>();
@@ -79,14 +80,60 @@ namespace Graph
     List<Button> buttons = new List<Button>();
     private void button1_Click(object sender, EventArgs e)
     {
+      Graphics clear = pictureBox1.CreateGraphics();
+      clear.Clear(Color.White);
+      int theBiggestY = 0, theBiggestX = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for (int j = i + 1; j < buttonsCount; j++)
+        {
+          if (linksInLinks[i][j] != 0)
+          {
+            using (Graphics g = pictureBox1.CreateGraphics())
+            {
+              //g.Clear(Color.White);
+              Pen myPen = new Pen(Color.Red);
+              int firstX = 0, firstY = 0;
+              int secondX = 0, secondY = 0;
+              firstX = buttons[i].Location.X + buttons[i].Width;
+              firstY = buttons[i].Location.Y + buttons[i].Height;
+              secondX = buttons[j].Location.X + buttons[i].Width;
+              secondY = buttons[j].Location.Y + buttons[i].Height;
+              myPen = new Pen(Color.Red);
+              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
+              Font myFont = new Font("Arial", 14);
+              if (buttons[i].Location.X > second.Location.X)
+              {
+                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+              }
+              else
+              {
+                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+              }
+              if (buttons[i].Location.Y > buttons[j].Location.Y)
+              {
+                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
+              }
+              else
+              {
+                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
+              }
+              Point point = new Point(theBiggestX, theBiggestY);
+              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
+              //g.DrawLine(myPen, 0, 0, 1000, 1000);
+            }
+          }
+        }
+      }
       buttonsCount++;
       Button btn = new Button();
-      btn.Size = new Size(20, 20);
+      btn.Size = new Size(30, 30);
       btn.Location = new Point(this.Width / 2, this.Height/2);
       btn.Text = buttonsCount.ToString();
       btn.Name = buttonsCount.ToString();
       pictureBox1.Controls.Add(btn);
       btn.BringToFront();
+      btn.ForeColor = Color.Black;
       ControlExtension.Draggable(btn, true);
       btn.Click += ButtonOnClick;
       buttons.Add(btn);
@@ -115,6 +162,51 @@ namespace Graph
 
     private void ButtonOnClick(object sender, EventArgs eventArgs)
     {
+      Graphics clear = pictureBox1.CreateGraphics();
+      clear.Clear(Color.White);
+      int theBiggestY = 0, theBiggestX = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for (int j = i + 1; j < buttonsCount; j++)
+        {
+          if (linksInLinks[i][j] != 0)
+          {
+            using (Graphics g = pictureBox1.CreateGraphics())
+            {
+              //g.Clear(Color.White);
+              Pen myPen = new Pen(Color.Red);
+              int firstX = 0, firstY = 0;
+              int secondX = 0, secondY = 0;
+              firstX = buttons[i].Location.X + buttons[i].Width;
+              firstY = buttons[i].Location.Y + buttons[i].Height;
+              secondX = buttons[j].Location.X + buttons[i].Width;
+              secondY = buttons[j].Location.Y + buttons[i].Height;
+              myPen = new Pen(Color.Red);
+              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
+              Font myFont = new Font("Arial", 14);
+              if (buttons[i].Location.X > second.Location.X)
+              {
+                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+              }
+              else
+              {
+                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+              }
+              if (buttons[i].Location.Y > buttons[j].Location.Y)
+              {
+                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
+              }
+              else
+              {
+                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
+              }
+              Point point = new Point(theBiggestX, theBiggestY);
+              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
+              //g.DrawLine(myPen, 0, 0, 1000, 1000);
+            }
+          }
+        }
+      }
       for (int i = 0; i < buttons.Count; i++)
       {
         string someString = sender.ToString();
@@ -125,15 +217,32 @@ namespace Graph
           {
             if (seted)
             {
-              second = buttons[i];
-              seted = false;
-              choosedAll++;
+              //if (second != null)
+              //{
+                //button.ForeColor = Color.Black;
+                if (buttons[i] != second)
+                {
+                  buttons[i].ForeColor = Color.White;
+                  second = buttons[i];
+                  buttons[i].ForeColor = Color.Purple;
+                  seted = false;
+                  choosedAll++;
+                }
+              //}
             }
             else
             {
-              first = buttons[i];
-              seted = true;
-              choosedAll++;
+              //if (first != null)
+              //{
+                if (buttons[i] != first)
+                {
+                  buttons[i].ForeColor = Color.White;
+                  first = buttons[i];
+                  buttons[i].ForeColor = Color.Purple;
+                  seted = true;
+                  choosedAll++;
+                }
+              //}
             }
             /*MessageBox.Show("Прощай " + button.Name);
             button.Dispose();
@@ -146,6 +255,51 @@ namespace Graph
 
     private void button3_Click(object sender, EventArgs e)
     {
+      Graphics clear = pictureBox1.CreateGraphics();
+      clear.Clear(Color.White);
+      int theBiggestY = 0, theBiggestX = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for (int j = i + 1; j < buttonsCount; j++)
+        {
+          if (linksInLinks[i][j] != 0)
+          {
+            using (Graphics g = pictureBox1.CreateGraphics())
+            {
+              //g.Clear(Color.White);
+              Pen myPen = new Pen(Color.Red);
+              int firstX = 0, firstY = 0;
+              int secondX = 0, secondY = 0;
+              firstX = buttons[i].Location.X + buttons[i].Width;
+              firstY = buttons[i].Location.Y + buttons[i].Height;
+              secondX = buttons[j].Location.X + buttons[i].Width;
+              secondY = buttons[j].Location.Y + buttons[i].Height;
+              myPen = new Pen(Color.Red);
+              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
+              Font myFont = new Font("Arial", 14);
+              if (buttons[i].Location.X > second.Location.X)
+              {
+                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+              }
+              else
+              {
+                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+              }
+              if (buttons[i].Location.Y > buttons[j].Location.Y)
+              {
+                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
+              }
+              else
+              {
+                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
+              }
+              Point point = new Point(theBiggestX, theBiggestY);
+              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
+              //g.DrawLine(myPen, 0, 0, 1000, 1000);
+            }
+          }
+        }
+      }
       if (buttonsCount > 1)
       {
         //findFastestToThis = int.Parse(textBox1.Text);
@@ -157,7 +311,7 @@ namespace Graph
             graph[i, j] = linksInLinks[i][j];
           }
         }
-        DijkstraAlgo(graph, 0, linksInLinks.Count);
+        DijkstraAlgo(graph, 0, linksInLinks.Count, int.Parse(textBox1.Text));
       }
       else
       {
@@ -172,6 +326,10 @@ namespace Graph
 
     private void button2_Click(object sender, EventArgs e)
     {
+      Graphics clear = pictureBox1.CreateGraphics();
+      clear.Clear(Color.White);
+      //pictureBox1.Image.Dispose();
+      pictureBox1.InitialImage = null;
       if (buttonsCount > 1)
       {
         int Weight = 0;
@@ -191,7 +349,7 @@ namespace Graph
           }
           else
           {
-            biggestX = second.Location.X + (first.Location.Y - second.Location.X) / 2;
+            biggestX = first.Location.X + (second.Location.X - first.Location.X) / 2;
           }
           if (first.Location.Y > second.Location.Y)
           {
@@ -220,6 +378,49 @@ namespace Graph
       else
       {
         MessageBox.Show("Add some more vertexs");
+      }
+      clear.Clear(Color.White);
+      int theBiggestY = 0, theBiggestX = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for(int j = i + 1; j < buttonsCount; j++)
+        {
+          if(linksInLinks[i][j] != 0) {
+            using (Graphics g = pictureBox1.CreateGraphics())
+            {
+              //g.Clear(Color.White);
+              Pen myPen = new Pen(Color.Red);
+              int firstX = 0, firstY = 0;
+              int secondX = 0, secondY = 0;
+              firstX = buttons[i].Location.X + buttons[i].Width;
+              firstY = buttons[i].Location.Y + buttons[i].Height;
+              secondX = buttons[j].Location.X + buttons[i].Width;
+              secondY = buttons[j].Location.Y + buttons[i].Height;
+              myPen = new Pen(Color.Red);
+              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
+              Font myFont = new Font("Arial", 14);
+              if (buttons[i].Location.X > second.Location.X)
+              {
+                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+              }
+              else
+              {
+                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+              }
+              if (buttons[i].Location.Y > buttons[j].Location.Y)
+              {
+                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
+              }
+              else
+              {
+                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
+              }
+              Point point = new Point(theBiggestX, theBiggestY);
+              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
+              //g.DrawLine(myPen, 0, 0, 1000, 1000);
+            }
+          }
+        }
       }
     }
 

@@ -40,8 +40,8 @@ namespace Graph
     private static void Print(int[] distance, int verticesCount, int destination)
     {
       
-      for (int i = 0; i < verticesCount; ++i)
-        if(i == destination - 1)
+      for (int i = 1; i < verticesCount; ++i)
+        /*if(i == destination - 1)*/
           MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString());
     }
     public static void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
@@ -70,7 +70,30 @@ namespace Graph
       Print(distance, verticesCount, destination);
       }
 
-      List<List<int>> linksInLinks = new List<List<int>>();
+    public void FloydWarshall_00(int[] matrix, int sz)
+    {
+      for (var k = 0; k < sz; ++k)
+      {
+        for (var i = 0; i < sz; ++i)
+        {
+          for (var j = 0; j < sz; ++j)
+          {
+            var distance = matrix[i * sz + k] + matrix[k * sz + j];
+            if (matrix[i * sz + j] > distance)
+            {
+              matrix[i * sz + j] = distance;
+            }
+          }
+        }
+      }
+      for(int i = 0; i < buttonsCount; i++)
+      {
+        if(matrix[i] != 0)
+          MessageBox.Show("Вершина: " + (i  + 1).ToString() + " Расстояние: " + matrix[i].ToString());
+      }
+    }
+
+    List<List<int>> linksInLinks = new List<List<int>>();
     List<int> links = new List<int>();
     Button first, second;
     bool seted = false;
@@ -133,7 +156,7 @@ namespace Graph
       btn.Name = buttonsCount.ToString();
       pictureBox1.Controls.Add(btn);
       btn.BringToFront();
-      btn.ForeColor = Color.Black;
+      btn.BackColor = Color.White;
       ControlExtension.Draggable(btn, true);
       btn.Click += ButtonOnClick;
       buttons.Add(btn);
@@ -220,11 +243,12 @@ namespace Graph
               //if (second != null)
               //{
                 //button.ForeColor = Color.Black;
-                if (buttons[i] != second)
+                if (buttons[i] != second && first != buttons[i])
                 {
-                  buttons[i].ForeColor = Color.White;
+                  if (second != null)
+                    second.BackColor= Color.White;
                   second = buttons[i];
-                  buttons[i].ForeColor = Color.Purple;
+                  buttons[i].BackColor = Color.DeepSkyBlue;
                   seted = false;
                   choosedAll++;
                 }
@@ -234,11 +258,12 @@ namespace Graph
             {
               //if (first != null)
               //{
-                if (buttons[i] != first)
+                if (buttons[i] != first && second != buttons[i])
                 {
-                  buttons[i].ForeColor = Color.White;
+                  if(first != null)
+                    first.BackColor = Color.White;
                   first = buttons[i];
-                  buttons[i].ForeColor = Color.Purple;
+                  buttons[i].BackColor = Color.Orange;
                   seted = true;
                   choosedAll++;
                 }
@@ -324,6 +349,19 @@ namespace Graph
 
     }
 
+    private void button4_Click(object sender, EventArgs e)
+    {
+      int[] matrix = new int[buttonsCount * buttonsCount]; 
+      for(int i = 0; i < buttonsCount; i++)
+      {
+        for(int j = 0; j < buttonsCount; j++)
+        {
+          matrix[i * buttonsCount + j] = linksInLinks[i][j];
+        }
+      }
+      FloydWarshall_00(matrix, buttonsCount);
+    }
+
     private void button2_Click(object sender, EventArgs e)
     {
       Graphics clear = pictureBox1.CreateGraphics();
@@ -367,7 +405,7 @@ namespace Graph
           }
           catch
           {
-            Weight = 0;
+            Weight = 1;
           }
           linksInLinks[int.Parse(first.Text) - 1][int.Parse(second.Text) - 1] = Weight;
           linksInLinks[int.Parse(second.Text) - 1][int.Parse(first.Text) - 1] = Weight;

@@ -40,6 +40,62 @@ namespace Graph
       return minIndex;
     }
 
+    public void UpdatePicture()
+    {
+      Graphics clear = pictureBox1.CreateGraphics();
+      clear.Clear(Color.White);
+      pictureBox1.BackColor = Color.White;
+      int theBiggestY = 0, theBiggestX = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for (int j = 0; j < buttonsCount; j++)
+        {
+          if (linksInLinks[i][j] != 0)
+          {
+            using (Graphics g = pictureBox1.CreateGraphics())
+            {
+              Pen myPen = new Pen(Color.Red);
+              int firstX = 0, firstY = 0;
+              int secondX = 0, secondY = 0;
+              firstX = buttons[i].Location.X + buttons[i].Width;
+              firstY = buttons[i].Location.Y + buttons[i].Height;
+              secondX = buttons[j].Location.X + buttons[i].Width;
+              secondY = buttons[j].Location.Y + buttons[i].Height;
+              myPen = new Pen(Color.Red);
+              Pen myPenTwo = new Pen(Color.Green);
+              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
+              Font myFont = new Font("Arial", 14);
+              if (buttons[i].Location.X > buttons[j].Location.X)
+              {
+                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+              }
+              else
+              {
+                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+              }
+              if (buttons[i].Location.Y > buttons[j].Location.Y)
+              {
+                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
+              }
+              else
+              {
+                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
+              }
+              Point point = new Point(theBiggestX, theBiggestY);
+              if (buttons[i].Location.X > buttons[j].Location.X)
+              {
+                g.DrawString(linksInLinks[i][j].ToString() + "<", myFont, Brushes.Green, point);
+              }
+              else
+              {
+                g.DrawString(linksInLinks[i][j].ToString() + ">", myFont, Brushes.Green, point);
+              }
+            }
+          }
+        }
+      }
+    }
+
     private static void Print(int[] distance, int verticesCount, int destination)
     {
       for (int i = 1; i < verticesCount; ++i)
@@ -83,15 +139,11 @@ namespace Graph
       d[0] = 0;
       for (int i = 1; i < buttonsCount; i++)
       {
-        for (int j = 0; j < countOfLinks*2; j++)
+        for (int j = 0; j < countOfLinks; j++)
         {
           if (d[matrix[j].second] > (d[matrix[j].first] + matrix[j].value))
           {
             d[matrix[j].second] = d[matrix[j].first] + matrix[j].value;
-          }
-          if (d[matrix[j].first] > (d[matrix[j].second] + matrix[j].value))
-          {
-            d[matrix[j].first] = d[matrix[j].second] + matrix[j].value;
           }
         }
       }
@@ -101,6 +153,7 @@ namespace Graph
       }
     }
 
+    bool pressedLinking = false;
     int countOfLinks = 0;
     List<List<int>> linksInLinks = new List<List<int>>();
     Button first, second;
@@ -110,49 +163,7 @@ namespace Graph
     List<Button> buttons = new List<Button>();
     private void createVertex_Click(object sender, EventArgs e)
     {
-      Graphics clear = pictureBox1.CreateGraphics();
-      clear.Clear(Color.White);
-      int theBiggestY = 0, theBiggestX = 0;
-      for (int i = 0; i < buttonsCount; i++)
-      {
-        for (int j = i + 1; j < buttonsCount; j++)
-        {
-          if (linksInLinks[i][j] != 0)
-          {
-            using (Graphics g = pictureBox1.CreateGraphics())
-            {
-              Pen myPen = new Pen(Color.Red);
-              int firstX = 0, firstY = 0;
-              int secondX = 0, secondY = 0;
-              firstX = buttons[i].Location.X + buttons[i].Width;
-              firstY = buttons[i].Location.Y + buttons[i].Height;
-              secondX = buttons[j].Location.X + buttons[i].Width;
-              secondY = buttons[j].Location.Y + buttons[i].Height;
-              myPen = new Pen(Color.Red);
-              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
-              Font myFont = new Font("Arial", 14);
-              if (buttons[i].Location.X > second.Location.X)
-              {
-                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
-              }
-              else
-              {
-                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
-              }
-              if (buttons[i].Location.Y > buttons[j].Location.Y)
-              {
-                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
-              }
-              else
-              {
-                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
-              }
-              Point point = new Point(theBiggestX, theBiggestY);
-              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
-            }
-          }
-        }
-      }
+      UpdatePicture();
       buttonsCount++;
       Button btn = new Button();
       btn.Size = new Size(30, 30);
@@ -187,132 +198,98 @@ namespace Graph
     private void Form1_Load(object sender, EventArgs e)
     {
     }
+
+    public List<List<int>> GetArray()
+    {
+      return linksInLinks;
+    }
     private void ButtonOnClick(object sender, EventArgs eventArgs)
     {
+      UpdatePicture();
       Graphics clear = pictureBox1.CreateGraphics();
-      clear.Clear(Color.White);
-      int theBiggestY = 0, theBiggestX = 0;
-      for (int i = 0; i < buttonsCount; i++)
+      if (pressedLinking)
       {
-        for (int j = i + 1; j < buttonsCount; j++)
+        clear.Clear(Color.White);
+        UpdatePicture();
+        for (int i = 0; i < buttons.Count; i++)
         {
-          if (linksInLinks[i][j] != 0)
+          string someString = sender.ToString();
+          if (sender.ToString() == "System.Windows.Forms.Button, Text: " + buttons[i].Text)
           {
-            using (Graphics g = pictureBox1.CreateGraphics())
+            var button = (Button)sender;
+            if (button != null)
             {
-              Pen myPen = new Pen(Color.Red);
-              int firstX = 0, firstY = 0;
-              int secondX = 0, secondY = 0;
-              firstX = buttons[i].Location.X + buttons[i].Width;
-              firstY = buttons[i].Location.Y + buttons[i].Height;
-              secondX = buttons[j].Location.X + buttons[i].Width;
-              secondY = buttons[j].Location.Y + buttons[i].Height;
-              myPen = new Pen(Color.Red);
-              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
-              Font myFont = new Font("Arial", 14);
-              if (buttons[i].Location.X > buttons[j].Location.X)
+              if (seted)
               {
-                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
+                if (buttons[i] != second && first != buttons[i])
+                {
+                  if (second != null)
+                    second.BackColor = Color.White;
+                  second = buttons[i];
+                  buttons[i].BackColor = Color.DeepSkyBlue;
+                  seted = false;
+                  choosedAll++;
+                }
               }
               else
               {
-                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
+                if (buttons[i] != first && second != buttons[i])
+                {
+                  if (first != null)
+                    first.BackColor = Color.White;
+                  first = buttons[i];
+                  buttons[i].BackColor = Color.Orange;
+                  seted = true;
+                  choosedAll++;
+                }
               }
-              if (buttons[i].Location.Y > buttons[j].Location.Y)
-              {
-                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
-              }
-              else
-              {
-                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
-              }
-              Point point = new Point(theBiggestX, theBiggestY);
-              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
             }
           }
         }
       }
-      for (int i = 0; i < buttons.Count; i++)
+      if (pressedLinking && second != null && first != null)
       {
-        string someString = sender.ToString();
-        if (sender.ToString() == "System.Windows.Forms.Button, Text: " + buttons[i].Text)
+        clear = pictureBox1.CreateGraphics();
+        clear.Clear(Color.White);
+        pictureBox1.InitialImage = null;
+        if (buttonsCount > 1)
         {
-          var button = (Button)sender;
-          if (button != null)
+          int Weight = 0;
+          int Width = buttons[0].Width / 2;
+          int Height = buttons[0].Height / 2;
+          Pen myPen = new Pen(Color.Red);
+          using (Graphics g = pictureBox1.CreateGraphics())
           {
-            if (seted)
+            try
             {
-              if (buttons[i] != second && first != buttons[i])
-              {
-                if (second != null)
-                  second.BackColor= Color.White;
-                second = buttons[i];
-                buttons[i].BackColor = Color.DeepSkyBlue;
-                seted = false;
-                choosedAll++;
-              }
+              Weight = int.Parse(textBox1.Text);
             }
-            else
+            catch
             {
-              if (buttons[i] != first && second != buttons[i])
-              {
-                if(first != null)
-                  first.BackColor = Color.White;
-                first = buttons[i];
-                buttons[i].BackColor = Color.Orange;
-                seted = true;
-                choosedAll++;
-              }
+              Weight = 1;
             }
+            linksInLinks[int.Parse(first.Text) - 1][int.Parse(second.Text) - 1] = Weight;
+            choosedAll = 0;
+            countOfLinks++;
+            first.BackColor = Color.White;
+            second.BackColor = Color.White;
+            first = null;
+            second = null;
           }
         }
+        else
+        {
+          MessageBox.Show("Add some more vertexs");
+        }
+        clear.Clear(Color.White);
+        UpdatePicture();
       }
     }
     private void button3_Click(object sender, EventArgs e)
     {
       Graphics clear = pictureBox1.CreateGraphics();
       clear.Clear(Color.White);
-      int theBiggestY = 0, theBiggestX = 0;
-      for (int i = 0; i < buttonsCount; i++)
-      {
-        for (int j = i + 1; j < buttonsCount; j++)
-        {
-          if (linksInLinks[i][j] != 0)
-          {
-            using (Graphics g = pictureBox1.CreateGraphics())
-            {
-              Pen myPen = new Pen(Color.Red);
-              int firstX = 0, firstY = 0;
-              int secondX = 0, secondY = 0;
-              firstX = buttons[i].Location.X + buttons[i].Width;
-              firstY = buttons[i].Location.Y + buttons[i].Height;
-              secondX = buttons[j].Location.X + buttons[i].Width;
-              secondY = buttons[j].Location.Y + buttons[i].Height;
-              myPen = new Pen(Color.Red);
-              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
-              Font myFont = new Font("Arial", 14);
-              if (buttons[i].Location.X > second.Location.X)
-              {
-                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
-              }
-              else
-              {
-                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
-              }
-              if (buttons[i].Location.Y > buttons[j].Location.Y)
-              {
-                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
-              }
-              else
-              {
-                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
-              }
-              Point point = new Point(theBiggestX, theBiggestY);
-              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
-            }
-          }
-        }
-      }
+      UpdatePicture();
       if (buttonsCount > 1)
       {
         int[,] graph = new int[buttonsCount, buttonsCount];
@@ -337,7 +314,7 @@ namespace Graph
     private void button4_Click(object sender, EventArgs e)
     {
       int counter = 0;
-      Vertex[] matrix = new Vertex[(countOfLinks*2)]; 
+      Vertex[] matrix = new Vertex[(countOfLinks)]; 
       for(int i = 0; i < buttonsCount; i++)
       {
         for(int j = 0; j < buttonsCount; j++)
@@ -440,7 +417,7 @@ namespace Graph
               }
               while (second == first);
               linksInLinks[first][second] = Weight;
-              linksInLinks[second][first] = Weight;
+              //linksInLinks[second][first] = Weight;
             }
             else
             {
@@ -452,56 +429,16 @@ namespace Graph
               }
               while (second == first);
               linksInLinks[first][second] = Weight;
-              linksInLinks[second][first] = Weight;
+              //linksInLinks[second][first] = Weight;
             }
           }
-          int theBiggestY = 0, theBiggestX = 0;
-          for (int i = 0; i < buttonsCount; i++)
-          {
-            for (int j = i + 1; j < buttonsCount; j++)
-            {
-              if (linksInLinks[i][j] != 0)
-              {
-                using (Graphics g = pictureBox1.CreateGraphics())
-                {
-                  Pen myPen = new Pen(Color.Red);
-                  int firstX = 0, firstY = 0;
-                  int secondX = 0, secondY = 0;
-                  firstX = buttons[i].Location.X + buttons[i].Width;
-                  firstY = buttons[i].Location.Y + buttons[i].Height;
-                  secondX = buttons[j].Location.X + buttons[i].Width;
-                  secondY = buttons[j].Location.Y + buttons[i].Height;
-                  myPen = new Pen(Color.Red);
-                  g.DrawLine(myPen, firstX, firstY, secondX, secondY);
-                  Font myFont = new Font("Arial", 14);
-                  if (buttons[i].Location.X > buttons[j].Location.X)
-                  {
-                    theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
-                  }
-                  else
-                  {
-                    theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
-                  }
-                  if (buttons[i].Location.Y > buttons[j].Location.Y)
-                  {
-                    theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
-                  }
-                  else
-                  {
-                    theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
-                  }
-                  Point point = new Point(theBiggestX, theBiggestY);
-                  g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
-                }
-              }
-            }
-          }
+          UpdatePicture();
         }
       }
       countOfLinks = 0; 
       for (int i = 0; i < buttonsCount; i++)
       {
-        for (int j = i + 1; j < buttonsCount; j++)
+        for (int j = 0; j < buttonsCount; j++)
         {
           if(linksInLinks[i][j] != 0)
           {
@@ -511,99 +448,122 @@ namespace Graph
       }
     }
 
+    private void button5_Click(object sender, EventArgs e)
+    {
+      Form2 formTwo = new Form2();
+      formTwo.Owner = this;
+      formTwo.Show();
+    }
+
+    private void button6_Click(object sender, EventArgs e)
+    {
+    }
+
     private void button2_Click(object sender, EventArgs e)
     {
-      Graphics clear = pictureBox1.CreateGraphics();
-      clear.Clear(Color.White);
-      pictureBox1.InitialImage = null;
-      if (buttonsCount > 1)
+      if (pressedLinking == false)
       {
-        int Weight = 0;
-        int biggestY = 0, biggestX = 0;
-        int Width = buttons[0].Width / 2;
-        int Height = buttons[0].Height / 2;
-        Pen myPen = new Pen(Color.Red);
-        using (Graphics g = pictureBox1.CreateGraphics())
-        {
-          g.DrawLine(myPen, first.Location.X + Width, first.Location.Y + Height, second.Location.X + Width, second.Location.Y + Height);
-          Font myFont = new Font("Arial", 14);
-          if (first.Location.X > second.Location.X)
-          {
-            biggestX = second.Location.X + (first.Location.X - second.Location.X) / 2;
-          }
-          else
-          {
-            biggestX = first.Location.X + (second.Location.X - first.Location.X) / 2;
-          }
-          if (first.Location.Y > second.Location.Y)
-          {
-            biggestY = second.Location.Y + (first.Location.Y - second.Location.Y) / 2;
-          }
-          else
-          {
-            biggestY = first.Location.Y + (second.Location.Y - first.Location.Y) / 2;
-          }
-          Point point = new Point(biggestX, biggestY);
-          g.DrawString(textBox1.Text.ToString(), myFont, Brushes.Green, point);
-          try
-          {
-            Weight = int.Parse(textBox1.Text);
-          }
-          catch
-          {
-            Weight = 1;
-          }
-          linksInLinks[int.Parse(first.Text) - 1][int.Parse(second.Text) - 1] = Weight;
-          linksInLinks[int.Parse(second.Text) - 1][int.Parse(first.Text) - 1] = Weight;
-          choosedAll = 0;
-          countOfLinks++;
-        }
+        pressedLinking = true;
+        button2.BackColor = Color.Red;
       }
       else
       {
-        MessageBox.Show("Add some more vertexs");
+        button2.BackColor = Color.White;
+        pressedLinking = false;
+        if (first != null)
+        {
+          first.BackColor = Color.White;
+          first = null;
+        }
+        if (second != null)
+        {
+          second.BackColor = Color.White;
+          second = null;
+        }
       }
-      clear.Clear(Color.White);
-      int theBiggestY = 0, theBiggestX = 0;
+    }
+    public void Sinchronise(List<List<int>> array, int countOfVertexes)
+    {
+      if (buttonsCount != 0)
+      {
+        for (int i = 0; i < buttonsCount; i++)
+        {
+          buttons[i].Dispose();
+        }
+        buttons.Clear();
+        linksInLinks.Clear();
+        buttonsCount = 0;
+        Graphics clear = pictureBox1.CreateGraphics();
+        clear.Clear(Color.White);
+      }
+      buttonsCount = countOfVertexes;
+      int offsetX = 0, offsetY = 0;
+      int centerX = this.Width / 2, CenterY = this.Height / 2;
+      int currentX = 0, currentY = 0;
+      offsetX = 55;
+      offsetY = 55;
+      currentX = centerX + 46;
+      currentY = CenterY + 49;
+      
       for (int i = 0; i < buttonsCount; i++)
       {
-        for(int j = i + 1; j < buttonsCount; j++)
+        Button btn = new Button();
+        btn.Size = new Size(30, 30);
+        if (currentX < centerX && currentY < CenterY)
         {
-          if(linksInLinks[i][j] != 0) {
-            using (Graphics g = pictureBox1.CreateGraphics())
-            {
-              Pen myPen = new Pen(Color.Red);
-              int firstX = 0, firstY = 0;
-              int secondX = 0, secondY = 0;
-              firstX = buttons[i].Location.X + buttons[i].Width;
-              firstY = buttons[i].Location.Y + buttons[i].Height;
-              secondX = buttons[j].Location.X + buttons[i].Width;
-              secondY = buttons[j].Location.Y + buttons[i].Height;
-              myPen = new Pen(Color.Red);
-              g.DrawLine(myPen, firstX, firstY, secondX, secondY);
-              Font myFont = new Font("Arial", 14);
-              if (buttons[i].Location.X > second.Location.X)
-              {
-                theBiggestX = buttons[j].Location.X + (buttons[i].Location.X - buttons[j].Location.X) / 2;
-              }
-              else
-              {
-                theBiggestX = buttons[i].Location.X + (buttons[j].Location.X - buttons[i].Location.X) / 2;
-              }
-              if (buttons[i].Location.Y > buttons[j].Location.Y)
-              {
-                theBiggestY = buttons[j].Location.Y + (buttons[i].Location.Y - buttons[j].Location.Y) / 2;
-              }
-              else
-              {
-                theBiggestY = buttons[i].Location.Y + (buttons[j].Location.Y - buttons[i].Location.Y) / 2;
-              }
-              Point point = new Point(theBiggestX, theBiggestY);
-              g.DrawString(linksInLinks[i][j].ToString(), myFont, Brushes.Green, point);
-            }
+          currentX = currentX + offsetX;
+          currentY = currentY - offsetY;
+          btn.Location = new Point(currentX, currentY);
+        }
+        if (currentX > centerX && currentY < CenterY)
+        {
+          currentX = currentX + offsetX;
+          currentY = currentY + offsetY;
+          btn.Location = new Point(currentX, currentY);
+        }
+        if (currentX > centerX && currentY > CenterY)
+        {
+          currentX = currentX - offsetX;
+          currentY = currentY + offsetY;
+          btn.Location = new Point(currentX, currentY);
+        }
+        if (currentX < centerX && currentY > CenterY)
+        {
+          currentX = currentX - offsetX;
+          currentY = currentY - offsetY;
+          btn.Location = new Point(currentX, currentY);
+        }
+        btn.Text = (i + 1).ToString();
+        btn.Name = i.ToString();
+        pictureBox1.Controls.Add(btn);
+        btn.BringToFront();
+        btn.BackColor = Color.White;
+        ControlExtension.Draggable(btn, true);
+        btn.Click += ButtonOnClick;
+        buttons.Add(btn);
+        string someString = btn.Name;
+      }
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        linksInLinks.Add(new List<int>());
+        for (int j = 0; j < buttonsCount; j++)
+        {
+          linksInLinks[i].Add(array[i][j]);
+        }
+      }
+      array.Clear();
+      countOfLinks = 0;
+      for (int i = 0; i < buttonsCount; i++)
+      {
+        for (int j = 0; j < buttonsCount; j++)
+        {
+          if (linksInLinks[i][j] != 0)
+          {
+            countOfLinks++;
           }
         }
       }
+      UpdatePicture();
     }
   }
 }

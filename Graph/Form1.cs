@@ -278,6 +278,7 @@ namespace Graph
     List<Button> buttons = new List<Button>();
     private void createVertex_Click(object sender, EventArgs e)
     {
+      Graph.created = false;
       UpdatePicture();
       buttonsCount++;
       Button btn = new Button();
@@ -638,7 +639,7 @@ namespace Graph
       offsetY = 55;
       currentX = centerX + 54;
       currentY = CenterY - 10;
-      
+      Graph.created = false;
       for (int i = 0; i < buttonsCount; i++)
       {
         Button btn = new Button();

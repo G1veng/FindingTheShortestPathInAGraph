@@ -25,6 +25,89 @@ namespace Graph
     public int value;
     }
 
+    public class templates
+    {
+      public bool created = false;
+      public int countOfTemplates = 3;
+      public List<List<int>> firstGraph;
+      public int sizeOfFirst = 6;
+      public List<List<int>> secondGraph;
+      public int sizeOfSecond = 10;
+      public List<List<int>> thirdGraph;
+      public int sizeOfThird = 7;
+      public string[] pathForFirstGraph;
+      public string[] pathForSecondGraph;
+      public string[] pathForThirdGraph;
+    }
+
+    public void fillClassTemplates(templates Graph)
+    {
+      Graph.created = true;
+      Graph.firstGraph = new List<List<int>>(Graph.sizeOfFirst);
+      for(int i = 0; i < Graph.sizeOfFirst; i++)
+      {
+        Graph.firstGraph.Add(new List<int>());
+      }
+      Graph.firstGraph[0].Add(0); Graph.firstGraph[0].Add(2); Graph.firstGraph[0].Add(0); Graph.firstGraph[0].Add(7); Graph.firstGraph[0].Add(0); Graph.firstGraph[0].Add(0);
+      Graph.firstGraph[1].Add(0); Graph.firstGraph[1].Add(0); Graph.firstGraph[1].Add(4); Graph.firstGraph[1].Add(0); Graph.firstGraph[1].Add(0); Graph.firstGraph[1].Add(0);
+      Graph.firstGraph[2].Add(2); Graph.firstGraph[2].Add(0); Graph.firstGraph[2].Add(0); Graph.firstGraph[2].Add(13); Graph.firstGraph[2].Add(0); Graph.firstGraph[2].Add(0);
+      Graph.firstGraph[3].Add(0); Graph.firstGraph[3].Add(0); Graph.firstGraph[3].Add(0); Graph.firstGraph[3].Add(0); Graph.firstGraph[3].Add(1); Graph.firstGraph[3].Add(0);
+      Graph.firstGraph[4].Add(0); Graph.firstGraph[4].Add(0); Graph.firstGraph[4].Add(12); Graph.firstGraph[4].Add(0); Graph.firstGraph[4].Add(0); Graph.firstGraph[4].Add(5);
+      Graph.firstGraph[5].Add(0); Graph.firstGraph[5].Add(0); Graph.firstGraph[5].Add(2); Graph.firstGraph[5].Add(0); Graph.firstGraph[5].Add(0); Graph.firstGraph[5].Add(0);
+
+      Graph.secondGraph = new List<List<int>>(Graph.sizeOfSecond);
+      for (int i = 0; i < Graph.sizeOfSecond; i++)
+      {
+        Graph.secondGraph.Add(new List<int>());
+      }
+      Graph.secondGraph[0].Add(0); Graph.secondGraph[0].Add(3); Graph.secondGraph[0].Add(4); Graph.secondGraph[0].Add(2); Graph.secondGraph[0].Add(0); Graph.secondGraph[0].Add(0);
+      Graph.secondGraph[0].Add(0); Graph.secondGraph[0].Add(0); Graph.secondGraph[0].Add(0); Graph.secondGraph[0].Add(0);
+      Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(3); Graph.secondGraph[1].Add(0);
+      Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0); Graph.secondGraph[1].Add(0);
+      Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(6); Graph.secondGraph[2].Add(0);
+      Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0); Graph.secondGraph[2].Add(0);
+      Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(3); Graph.secondGraph[3].Add(1);
+      Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0); Graph.secondGraph[3].Add(0);
+      Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(1);
+      Graph.secondGraph[4].Add(8); Graph.secondGraph[4].Add(0); Graph.secondGraph[4].Add(7); Graph.secondGraph[4].Add(0);
+      Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0);
+      Graph.secondGraph[5].Add(6); Graph.secondGraph[5].Add(12); Graph.secondGraph[5].Add(0); Graph.secondGraph[5].Add(0);
+      Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0);
+      Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(0); Graph.secondGraph[6].Add(14);
+      Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0);
+      Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(0); Graph.secondGraph[7].Add(6); Graph.secondGraph[7].Add(11);
+      Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0);
+      Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(0); Graph.secondGraph[8].Add(3);
+      Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0);
+      Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0); Graph.secondGraph[9].Add(0);
+
+      Graph.thirdGraph = new List<List<int>>(Graph.sizeOfThird);
+      for (int i = 0; i < Graph.sizeOfThird; i++)
+      {
+        Graph.thirdGraph.Add(new List<int>());
+      }
+      Graph.thirdGraph[0].Add(0); Graph.thirdGraph[0].Add(1); Graph.thirdGraph[0].Add(0); Graph.thirdGraph[0].Add(0); Graph.thirdGraph[0].Add(0); Graph.thirdGraph[0].Add(0); Graph.thirdGraph[0].Add(0);
+      Graph.thirdGraph[1].Add(0); Graph.thirdGraph[1].Add(0); Graph.thirdGraph[1].Add(3); Graph.thirdGraph[1].Add(2); Graph.thirdGraph[1].Add(1); Graph.thirdGraph[1].Add(0); Graph.thirdGraph[1].Add(0);
+      Graph.thirdGraph[2].Add(0); Graph.thirdGraph[2].Add(0); Graph.thirdGraph[2].Add(0); Graph.thirdGraph[2].Add(1); Graph.thirdGraph[2].Add(4); Graph.thirdGraph[2].Add(0); Graph.thirdGraph[2].Add(0);
+      Graph.thirdGraph[3].Add(2); Graph.thirdGraph[3].Add(0); Graph.thirdGraph[3].Add(0); Graph.thirdGraph[3].Add(0); Graph.thirdGraph[3].Add(2); Graph.thirdGraph[3].Add(0); Graph.thirdGraph[3].Add(0);
+      Graph.thirdGraph[4].Add(0); Graph.thirdGraph[4].Add(0); Graph.thirdGraph[4].Add(0); Graph.thirdGraph[4].Add(0); Graph.thirdGraph[4].Add(0); Graph.thirdGraph[4].Add(3); Graph.thirdGraph[4].Add(0);
+      Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0); Graph.thirdGraph[5].Add(0);
+      Graph.thirdGraph[6].Add(0); Graph.thirdGraph[6].Add(0); Graph.thirdGraph[6].Add(0); Graph.thirdGraph[6].Add(1); Graph.thirdGraph[6].Add(0); Graph.thirdGraph[6].Add(0); Graph.thirdGraph[6].Add(0);
+
+      Graph.pathForSecondGraph = new string[Graph.sizeOfSecond];
+      Graph.pathForSecondGraph[0] = "1 >"; Graph.pathForSecondGraph[1] = "1 >2"; Graph.pathForSecondGraph[2] = "1 > 3"; Graph.pathForSecondGraph[3] = "1 > 4";
+      Graph.pathForSecondGraph[4] = "1 > 4 > 5"; Graph.pathForSecondGraph[5] = "1 >4 >6"; Graph.pathForSecondGraph[6] = "1 >4 > 6 >7"; Graph.pathForSecondGraph[7] = "1 >4 > 6 > 8";
+      Graph.pathForSecondGraph[8] = "1 >4 > 5 >9"; Graph.pathForSecondGraph[9] = "1 >4 > 5 >9 >10";
+
+      Graph.pathForFirstGraph = new string[Graph.sizeOfFirst];
+      Graph.pathForFirstGraph[0] = "1 >"; Graph.pathForFirstGraph[1] = "1 >2"; Graph.pathForFirstGraph[2] = "1 >2 >3"; Graph.pathForFirstGraph[3] = "1 >4";
+      Graph.pathForFirstGraph[4] = "1 >4 > 5"; Graph.pathForFirstGraph[5] = "1 >4 >5 >6";
+
+      Graph.pathForThirdGraph = new string[Graph.sizeOfThird];
+      Graph.pathForThirdGraph[0] = "1 >"; Graph.pathForThirdGraph[1] = "1 >2"; Graph.pathForThirdGraph[2] = "1 >2 >3"; Graph.pathForThirdGraph[3] = "1 >2 >4";
+      Graph.pathForThirdGraph[4] = "1 >2 >5"; Graph.pathForThirdGraph[5] = "1 >2 >5 >6"; Graph.pathForThirdGraph[6] = "null";
+    }
+
     private static int MinimumDistance(int[] distance, bool[] shortestPathTreeSet, int verticesCount)
     {
       int min = int.MaxValue;
@@ -43,8 +126,8 @@ namespace Graph
     public void UpdatePicture()
     {
       Graphics clear = pictureBox1.CreateGraphics();
+      //pictureBox1.BackColor = Color.White;
       clear.Clear(Color.White);
-      pictureBox1.BackColor = Color.White;
       int theBiggestY = 0, theBiggestX = 0;
       for (int i = 0; i < buttonsCount; i++)
       {
@@ -152,8 +235,36 @@ namespace Graph
       }
       for(int i = 1; i < buttonsCount; i++)
       {
-        routes[i] = routes[i].Trim(new char[] { ' ', '>' });
-        MessageBox.Show("Вершина: " + (i+1).ToString() + " Расстояние: " + d[i].ToString() + '\n' + "Маршрут: " + routes[i]);
+        if (!Graph.created)
+        {
+          if (routes[i] != null)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + d[i].ToString() + '\n' + "Маршрут: " + routes[i]);
+          }
+          else
+          {
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: недостижимо" + '\n' + "Маршрут: нет");
+          }
+        }
+        if (Graph.created)
+        {
+          if(sz == Graph.sizeOfFirst)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + d[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForFirstGraph[i]);
+          }
+          if(sz == Graph.sizeOfSecond)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + d[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForSecondGraph[i]);
+          }
+          if(sz == Graph.sizeOfThird)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + d[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForThirdGraph[i]);
+          }
+        }
       }
     }
 
@@ -167,6 +278,7 @@ namespace Graph
     List<Button> buttons = new List<Button>();
     private void createVertex_Click(object sender, EventArgs e)
     {
+      Graph.created = false;
       UpdatePicture();
       buttonsCount++;
       Button btn = new Button();
@@ -335,120 +447,139 @@ namespace Graph
       }
       FordBellman(matrix, buttonsCount);
     }
+
+    templates Graph = new templates();
     private void button1_Click(object sender, EventArgs e)
     {
-      if (buttonsCount != 0)
-      {
-        for (int i = 0; i < buttonsCount; i++)
-        {
-          buttons[i].Dispose();
-        }
-        buttons.Clear();
-        linksInLinks.Clear();
-        buttonsCount = 0;
-        Graphics clear = pictureBox1.CreateGraphics();
-        clear.Clear(Color.White);
-      }
+      /*      if (buttonsCount != 0)
+            {
+              for (int i = 0; i < buttonsCount; i++)
+              {
+                buttons[i].Dispose();
+              }
+              buttons.Clear();
+              linksInLinks.Clear();
+              buttonsCount = 0;
+              Graphics clear = pictureBox1.CreateGraphics();
+              clear.Clear(Color.White);
+            }
+            Random rnd = new Random();
+            buttonsCount = rnd.Next(3, 6);
+            int offsetX = 0, offsetY = 0;
+            int centerX = this.Width/2, CenterY = this.Height/2;
+            int currentX = 0, currentY = 0;
+            offsetX = 55;
+            offsetY = 55;
+            currentX = centerX + 46;
+            currentY = CenterY + 49;
+            for (int i = 0; i < buttonsCount; i++)
+            {
+              Button btn = new Button();
+              btn.Size = new Size(30, 30);
+              if(currentX < centerX && currentY < CenterY)
+              {
+                currentX = currentX + offsetX;
+                currentY = currentY - offsetY;
+                btn.Location = new Point(currentX, currentY);
+              }
+              if(currentX > centerX && currentY < CenterY)
+              {
+                currentX = currentX + offsetX;
+                currentY = currentY + offsetY;
+                btn.Location = new Point(currentX, currentY);
+              }
+              if (currentX > centerX && currentY > CenterY)
+              {
+                currentX = currentX - offsetX;
+                currentY = currentY + offsetY;
+                btn.Location = new Point(currentX, currentY);
+              }
+              if (currentX < centerX && currentY > CenterY)
+              {
+                currentX = currentX - offsetX;
+                currentY = currentY - offsetY;
+                btn.Location = new Point(currentX, currentY);
+              }
+              btn.Text = (i + 1).ToString();
+              btn.Name = i.ToString();
+              pictureBox1.Controls.Add(btn);
+              btn.BringToFront();
+              btn.BackColor = Color.White;
+              ControlExtension.Draggable(btn, true);
+              btn.Click += ButtonOnClick;
+              buttons.Add(btn);
+              string someString = btn.Name;
+            }
+            for (int i = 0; i < buttonsCount; i++)
+            {
+              linksInLinks.Add(new List<int>());
+              for (int j = 0; j < buttonsCount; j++)
+              {
+                linksInLinks[i].Add(0);
+              }
+            }
+            for (int k = 0; k < buttonsCount; k++)
+            {
+              for (int m = 0; m < buttonsCount; m++)
+              {
+                int createLink = rnd.Next(0, 5);
+                if (createLink > 2 || k == 0)
+                {
+                  if (k != 0)
+                  {
+                    int Weight = rnd.Next(1, 6);
+                    int first = rnd.Next(0, buttonsCount), second;
+                    do
+                    {
+                      second = rnd.Next(0, buttonsCount);
+                    }
+                    while (second == first);
+                    linksInLinks[first][second] = Weight;
+                    //linksInLinks[second][first] = Weight;
+                  }
+                  else
+                  {
+                    int Weight = rnd.Next(1, 6);
+                    int first = 0, second;
+                    do
+                    {
+                      second = rnd.Next(0, buttonsCount);
+                    }
+                    while (second == first);
+                    linksInLinks[first][second] = Weight;
+                    //linksInLinks[second][first] = Weight;
+                  }
+                }
+                UpdatePicture();
+              }
+            }
+            countOfLinks = 0; 
+            for (int i = 0; i < buttonsCount; i++)
+            {
+              for (int j = 0; j < buttonsCount; j++)
+              {
+                if(linksInLinks[i][j] != 0)
+                {
+                  countOfLinks++;
+                }
+              }
+            }*/
+      //templates Graph = new templates();
+      fillClassTemplates(Graph);
       Random rnd = new Random();
-      buttonsCount = rnd.Next(3, 6);
-      int offsetX = 0, offsetY = 0;
-      int centerX = this.Width/2, CenterY = this.Height/2;
-      int currentX = 0, currentY = 0;
-      offsetX = 55;
-      offsetY = 55;
-      currentX = centerX + 46;
-      currentY = CenterY + 49;
-      for (int i = 0; i < buttonsCount; i++)
+      linksInLinks.Clear();
+      int whichGraph = rnd.Next(1, Graph.countOfTemplates + 1);
+      if(whichGraph == 1)
       {
-        Button btn = new Button();
-        btn.Size = new Size(30, 30);
-        if(currentX < centerX && currentY < CenterY)
-        {
-          currentX = currentX + offsetX;
-          currentY = currentY - offsetY;
-          btn.Location = new Point(currentX, currentY);
-        }
-        if(currentX > centerX && currentY < CenterY)
-        {
-          currentX = currentX + offsetX;
-          currentY = currentY + offsetY;
-          btn.Location = new Point(currentX, currentY);
-        }
-        if (currentX > centerX && currentY > CenterY)
-        {
-          currentX = currentX - offsetX;
-          currentY = currentY + offsetY;
-          btn.Location = new Point(currentX, currentY);
-        }
-        if (currentX < centerX && currentY > CenterY)
-        {
-          currentX = currentX - offsetX;
-          currentY = currentY - offsetY;
-          btn.Location = new Point(currentX, currentY);
-        }
-        btn.Text = (i + 1).ToString();
-        btn.Name = i.ToString();
-        pictureBox1.Controls.Add(btn);
-        btn.BringToFront();
-        btn.BackColor = Color.White;
-        ControlExtension.Draggable(btn, true);
-        btn.Click += ButtonOnClick;
-        buttons.Add(btn);
-        string someString = btn.Name;
+        Sinchronise(Graph.firstGraph, Graph.sizeOfFirst);
       }
-      for (int i = 0; i < buttonsCount; i++)
+      if(whichGraph == 2)
       {
-        linksInLinks.Add(new List<int>());
-        for (int j = 0; j < buttonsCount; j++)
-        {
-          linksInLinks[i].Add(0);
-        }
+        Sinchronise(Graph.secondGraph, Graph.sizeOfSecond);
       }
-      for (int k = 0; k < buttonsCount; k++)
+      if(whichGraph == 3)
       {
-        for (int m = 0; m < buttonsCount; m++)
-        {
-          int createLink = rnd.Next(0, 5);
-          if (createLink > 2 || k == 0)
-          {
-            if (k != 0)
-            {
-              int Weight = rnd.Next(1, 6);
-              int first = rnd.Next(0, buttonsCount), second;
-              do
-              {
-                second = rnd.Next(0, buttonsCount);
-              }
-              while (second == first);
-              linksInLinks[first][second] = Weight;
-              //linksInLinks[second][first] = Weight;
-            }
-            else
-            {
-              int Weight = rnd.Next(1, 6);
-              int first = 0, second;
-              do
-              {
-                second = rnd.Next(0, buttonsCount);
-              }
-              while (second == first);
-              linksInLinks[first][second] = Weight;
-              //linksInLinks[second][first] = Weight;
-            }
-          }
-          UpdatePicture();
-        }
-      }
-      countOfLinks = 0; 
-      for (int i = 0; i < buttonsCount; i++)
-      {
-        for (int j = 0; j < buttonsCount; j++)
-        {
-          if(linksInLinks[i][j] != 0)
-          {
-            countOfLinks++;
-          }
-        }
+        Sinchronise(Graph.thirdGraph, Graph.sizeOfThird);
       }
     }
 
@@ -506,9 +637,9 @@ namespace Graph
       int currentX = 0, currentY = 0;
       offsetX = 55;
       offsetY = 55;
-      currentX = centerX + 46;
-      currentY = CenterY + 49;
-      
+      currentX = centerX + 54;
+      currentY = CenterY - 10;
+      Graph.created = false;
       for (int i = 0; i < buttonsCount; i++)
       {
         Button btn = new Button();

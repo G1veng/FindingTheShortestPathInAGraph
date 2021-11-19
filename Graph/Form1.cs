@@ -179,16 +179,18 @@ namespace Graph
       }
     }
 
-    private static void Print(int[] distance, int verticesCount, int destination)
+    private static void Print(int[] distance, int verticesCount, int destination, string[] routes)
     {
       for (int i = 1; i < verticesCount; ++i)
       {
-        MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString());
+        routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+        MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i]);
       }
     }
-    public static void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
+ public static void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
     {
       int[] distance = new int[verticesCount];
+      string[] routes = new string[verticesCount];
       bool[] shortestPathTreeSet = new bool[verticesCount];
       for (int i = 0; i < verticesCount; ++i)
       {
@@ -196,6 +198,7 @@ namespace Graph
         shortestPathTreeSet[i] = false;
       }
       distance[source] = 0;
+      routes[source] = (source + 1).ToString() + " >";
       for (int count = 0; count < verticesCount - 1; ++count)
       {
         int u = MinimumDistance(distance, shortestPathTreeSet, verticesCount);
@@ -206,12 +209,12 @@ namespace Graph
           if (!shortestPathTreeSet[v] && Convert.ToBoolean(graph[u, v]) && distance[u] != int.MaxValue && distance[u] + graph[u, v] < distance[v])
           {
             distance[v] = distance[u] + graph[u, v];
+            routes[v] = routes[u] + (v + 1) + " >";
           }
         }
       }
-      Print(distance, verticesCount, destination);
+      Print(distance, verticesCount, destination, routes);
     }
-
     public void FordBellman(Vertex[] matrix, int sz)
     {
       int[] d = new int[buttonsCount];

@@ -179,16 +179,46 @@ namespace Graph
       }
     }
 
-    private static void Print(int[] distance, int verticesCount, int destination, string[] routes)
+    private void Print(int[] distance, int verticesCount, int destination, string[] routes)
     {
       for (int i = 1; i < verticesCount; ++i)
       {
-        routes[i] = routes[i].Trim(new char[] { ' ', '>' });
-        MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i]);
+        if (!Graph.created)
+        {
+          if (routes[i] != null)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i]);
+          }
+          else
+          {
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: недостижимо" + '\n' + "Маршрут: нет");
+          }
+        }
+        else
+        {
+          if (verticesCount == Graph.sizeOfFirst)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForFirstGraph[i]);
+          }
+          if (verticesCount == Graph.sizeOfSecond)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForSecondGraph[i]);
+          }
+          if (verticesCount == Graph.sizeOfThird)
+          {
+            routes[i] = routes[i].Trim(new char[] { ' ', '>' });
+            MessageBox.Show("Вершина: " + (i + 1).ToString() + " Расстояние: " + distance[i].ToString() + '\n' + "Маршрут: " + routes[i] + '\n' + "Правильный маршрут: " + Graph.pathForThirdGraph[i]);
+          }
+        }
       }
+      MessageBox.Show("Количество совершённых действий: " + countOfActions.ToString());
     }
- public static void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
+    public void DijkstraAlgo(int[,] graph, int source, int verticesCount, int destination)
     {
+      countOfActions = 0;
       int[] distance = new int[verticesCount];
       string[] routes = new string[verticesCount];
       bool[] shortestPathTreeSet = new bool[verticesCount];
@@ -208,6 +238,7 @@ namespace Graph
         {
           if (!shortestPathTreeSet[v] && Convert.ToBoolean(graph[u, v]) && distance[u] != int.MaxValue && distance[u] + graph[u, v] < distance[v])
           {
+            countOfActions++;
             distance[v] = distance[u] + graph[u, v];
             routes[v] = routes[u] + (v + 1) + " >";
           }
@@ -217,6 +248,7 @@ namespace Graph
     }
     public void FordBellman(Vertex[] matrix, int sz)
     {
+      countOfActions = 0;
       int[] d = new int[buttonsCount];
       string[] routes = new string[buttonsCount];
       for (int i = 0; i < buttonsCount; i++)
@@ -231,6 +263,7 @@ namespace Graph
         {
           if (d[matrix[j].second] > (d[matrix[j].first] + matrix[j].value))
           {
+            countOfActions++;
             d[matrix[j].second] = d[matrix[j].first] + matrix[j].value;
             routes[matrix[j].second] = routes[matrix[j].first] + (matrix[j].second + 1) + " >";
           }
@@ -269,8 +302,10 @@ namespace Graph
           }
         }
       }
+      MessageBox.Show("Количество совершённых действий: " + countOfActions.ToString());
     }
 
+    int countOfActions = 0;
     bool pressedLinking = false;
     int countOfLinks = 0;
     List<List<int>> linksInLinks = new List<List<int>>();
@@ -642,7 +677,7 @@ namespace Graph
       offsetY = 55;
       currentX = centerX + 54;
       currentY = CenterY - 10;
-      Graph.created = false;
+      //Graph.created = false;
       for (int i = 0; i < buttonsCount; i++)
       {
         Button btn = new Button();
